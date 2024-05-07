@@ -2,15 +2,37 @@ import { Hono } from "hono";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 // import { Jwt } from "hono/utils/jwt";
-import { sign } from "hono/jwt";
+import { sign, verify } from "hono/jwt";
 
 const app = new Hono<{
   Bindings: {
     DATABASE_URL: string;
     JWT_SECRET: string;
   };
+  Variables: {
+    userId: string;
+  };
 }>();
 
+//--------------------------------------------------------------------
+//middleware
+app.use("api/v1/blog/*", async (c, next) => {
+  //verify header
+  const header = c.req.header("authorization") || "";
+  const token = header.split(" ")[1];
+
+  const payload = await verify(token, c.env.JWT_SECRET);
+  if (!payload) {
+    c.status(401);
+    return c.json({ error: "unauthorized" });
+  }
+
+  c.set("userId", payload.id);
+  await next();
+});
+
+//--------------------------------------------------------------------
+//routes
 app.get("/", (c) => {
   return c.text("Hello Hono!");
 });
@@ -65,6 +87,7 @@ app.post("/api/v1/signin", async (c) => {
 });
 
 app.post("/api/v1/blog", (c) => {
+  console.log(c.get("userId"));
   return c.text("blog 'post' route");
 });
 
