@@ -2,6 +2,7 @@ import { Context, Hono } from "hono";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { verify } from "hono/jwt";
+import { createBlogInput, updateBlogInput } from "@vanshajsharma/medium-common";
 
 export const blogRouter = new Hono<{
   Bindings: {
@@ -19,24 +20,38 @@ blogRouter.use("/*", async (c, next) => {
   const header = c.req.header("authorization") || "";
   const token = header.split(" ")[1];
 
-  const payload = await verify(token, c.env.JWT_SECRET);
-  if (!payload) {
-    c.status(401);
-    return c.json({ error: "unauthorized" });
-  }
+  try {
+    const payload = await verify(token, c.env.JWT_SECRET);
+    if (!payload) {
+      c.status(401);
+      return c.json({ error: "unauthorized" });
+    }
 
-  c.set("userId", payload.id);
-  await next();
+    c.set("userId", payload.id);
+    await next();
+  } catch (error) {
+    c.status(403);
+    return c.json({ error: "unauthorized user" });
+  }
 });
 ///-------------------------------------------
 
 blogRouter.post("/", async (c) => {
+  const body = await c.req.json();
+  const { success } = createBlogInput.safeParse(body);
+  console.log(success);
+  if (!success) {
+    c.status(411);
+    return c.json({
+      message: "Blog is not validated",
+    });
+  }
+
   const authorId = c.get("userId");
   const prisma = new PrismaClient({
     datasourceUrl: c.env?.DATABASE_URL,
   }).$extends(withAccelerate());
 
-  const body = await c.req.json();
   const post = await prisma.post.create({
     data: {
       title: body.title,
@@ -52,6 +67,15 @@ blogRouter.post("/", async (c) => {
 
 blogRouter.put("/", async (c) => {
   const body = await c.req.json();
+  const { success } = updateBlogInput.safeParse(body);
+  console.log(success);
+  if (!success) {
+    c.status(411);
+    return c.json({
+      message: "Blog is not validated",
+    });
+  }
+
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
