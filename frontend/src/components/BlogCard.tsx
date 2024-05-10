@@ -41,10 +41,28 @@ function Circle() {
   return <div className="h-1 w-1 rounded-full bg-slate-400"></div>;
 }
 
-function Avatar({ name }: { name: string }) {
+export function Avatar({
+  name,
+  size = "small",
+}: {
+  name: string;
+  size?: "small" | "big";
+}) {
   return (
-    <div className="relative inline-flex items-center justify-center w-6 h-6 overflow-hidden bg-gray-100 rounded-full">
-      <span className="text-xs font-extralight text-gray-600  ">{name[0]}</span>
+    <div
+      className={`relative inline-flex items-center justify-center w-${
+        size === `small` ? 6 : 10
+      } h-${
+        size === `small` ? 6 : 10
+      } overflow-hidden bg-gray-100 rounded-full`}
+    >
+      <span
+        className={`${
+          size === `small` ? "text-xs" : "text-md"
+        } font-extralight text-gray-600  `}
+      >
+        {name[0]}
+      </span>
     </div>
   );
 }
