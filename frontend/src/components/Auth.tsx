@@ -15,20 +15,22 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
 
   async function sendRequest() {
     try {
+      const { name, ...rest } = postInputs;
+
       const response = await axios.post(
         `${BACKEND_URL}/api/v1/user/${type === "signup" ? "signup" : "signin"}`,
-        postInputs
+        type === "signup" ? postInputs : rest
       );
-      console.log("workin");
-      const jwt = response.data;
+      // console.log("workin");
+      const jwt = response.data.jwt;
+      // console.log(jwt);
       localStorage.setItem("token", jwt);
+      // console.log(jwt);
       navigate("/blogs");
     } catch (error) {
       //alert user req failed
-      alert("errror");
-      console.log(
-        `${BACKEND_URL}/api/v1/user/${type === "signup" ? "signup" : "signin"}`
-      );
+      alert("errror " + error);
+      console.log();
       console.log(error);
     }
   }
