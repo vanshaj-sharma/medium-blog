@@ -2,8 +2,8 @@ name = "backend"
 compatibility_date = "2023-12-01"
 
 [vars]
-DATABASE_URL="prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiYTQxZTA5NDctYjExMi00Yjg0LWIwZDMtMGNiNDE4NDdiNzExIiwidGVuYW50X2lkIjoiYjZlMGI2YzgxMzY4ZDBlM2MzNGE2MmYwYTYzM2ZiNGJkNTNkNGUzZDA5ZjRmMTlhN2M0MTI5YzhjOGU4NGFmMCIsImludGVybmFsX3NlY3JldCI6Ijc2MjZmMDgyLTJmZmUtNDdkZC05MWZlLWQ3MzNhNmEzMDMyZCJ9.cG7LlhH9fzKgbrRLcFgqcWPYXiewYu7xDSCQMJ76_h4"
-JWT_SECRET= "deezNuts"
+DATABASE_URL=""
+JWT_SECRET= ""
 # MY_VAR = "my-variable"
 
 # [[kv_namespaces]]

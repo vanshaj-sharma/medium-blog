@@ -2,6 +2,8 @@ import { useParams } from "react-router-dom";
 import { FullBlog } from "../components/FullBlog";
 import { useBlog } from "../hooks";
 import { BlogSkeleton } from "../components/BlogSkeleton";
+import { BlogShowSkeleton } from "../components/BlogShowSkeleton";
+import { Appbar } from "../components/Appbar";
 
 export const Blog = () => {
   const { id } = useParams();
@@ -12,9 +14,8 @@ export const Blog = () => {
   if (loading) {
     return (
       <div>
-        <BlogSkeleton />
-        <BlogSkeleton />
-        <BlogSkeleton />
+        <Appbar />
+        <BlogShowSkeleton />
       </div>
     );
   }
