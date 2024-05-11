@@ -9,7 +9,7 @@ import "./App.css";
 function App() {
   return (
     <>
-      <BrowserRouter>
+      <BrowserRouter basename="/subdirectory">
         <Routes>
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
