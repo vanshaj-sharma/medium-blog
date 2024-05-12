@@ -10,7 +10,7 @@ export const Blogs = () => {
     //add skeletons
     return (
       <div>
-        <Appbar />
+        <Appbar name={"Anonymous"} />
         <div className="flex justify-center">
           <div>
             <BlogSkeleton />

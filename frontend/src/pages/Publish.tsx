@@ -10,7 +10,7 @@ export const Publish = () => {
   const [description, setDescription] = useState("");
   return (
     <div>
-      <Appbar />
+      <Appbar publish={true} />
       <div className="flex justify-center pt-8">
         <div className="max-w-screen-lg w-full">
           <input
