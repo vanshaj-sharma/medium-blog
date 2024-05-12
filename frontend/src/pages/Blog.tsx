@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { FullBlog } from "../components/FullBlog";
-import { useBlog, useName } from "../hooks";
+import { useBlog } from "../hooks";
 import { BlogShowSkeleton } from "../components/BlogShowSkeleton";
 import { Appbar } from "../components/Appbar";
 
