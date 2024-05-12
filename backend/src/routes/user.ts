@@ -82,3 +82,61 @@ userRouter.post("/signin", async (c) => {
     jwt: token,
   });
 });
+
+userRouter.use("//getmyinfo", async (c, next) => {
+  //verify header
+  const header = c.req.header("authorization") || "";
+  const token = header.split(" ")[1];
+
+  try {
+    const payload = await verify(token, c.env.JWT_SECRET);
+    if (!payload) {
+      c.status(401);
+      return c.json({ error: "unauthorized" });
+    }
+
+    c.set("userId", payload.id);
+    await next();
+  } catch (error) {
+    c.status(403);
+    return c.json({ error: "unauthorized user" });
+  }
+});
+
+//route to get signed in user's name
+
+userRouter.get("/getmyinfo", async (c) => {
+  const header = c.req.header("authorization") || "";
+  const token = header.split(" ")[1];
+  if (!token) {
+    c.status(403);
+    return c.json({ error: "User not signed in" });
+  }
+  const payload = await verify(token, c.env.JWT_SECRET);
+  if (!payload) {
+    c.status(401);
+    return c.json({ error: "unauthorized user detected" });
+  }
+  const userId = payload.id;
+  // console.log(userId);
+
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+      select: {
+        name: true,
+      },
+    });
+    return c.json({
+      user,
+    });
+  } catch (error) {
+    console.log(error + "Error while retriving data");
+  }
+});
