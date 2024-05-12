@@ -11,6 +11,26 @@ export interface Blog {
   };
 }
 
+export const useName = () => {
+  const [name, setName] = useState<string>("");
+  console.log(name);
+  useEffect(() => {
+    axios
+      .get(`${BACKEND_URL}/api/v1/user/getmyinfo`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        setName(res.data.user.name);
+      });
+  }, [name]);
+  localStorage.setItem("name", name);
+  return {
+    name,
+  };
+};
+
 export const useBlog = ({ id }: { id: string }) => {
   const [loading, setLoading] = useState(true);
   const [blog, setBlog] = useState<Blog>();

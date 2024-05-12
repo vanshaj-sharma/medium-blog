@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { FullBlog } from "../components/FullBlog";
-import { useBlog } from "../hooks";
+import { useBlog, useName } from "../hooks";
 import { BlogShowSkeleton } from "../components/BlogShowSkeleton";
 import { Appbar } from "../components/Appbar";
 
@@ -13,14 +13,14 @@ export const Blog = () => {
   if (loading || !blog) {
     return (
       <div>
-        <Appbar />
+        <Appbar name={localStorage.getItem("name") || ""} />
         <BlogShowSkeleton />
       </div>
     );
   }
   return (
     <div>
-      <FullBlog blog={blog} />
+      <FullBlog name={localStorage.getItem("name") || ""} blog={blog} />
     </div>
   );
 };

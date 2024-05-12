@@ -1,5 +1,6 @@
 import { Avatar } from "./BlogCard";
 import { Link } from "react-router-dom";
+
 export const Appbar = ({
   publish,
   name,
@@ -27,7 +28,7 @@ export const Appbar = ({
             </button>
           </Link>
         )}
-        <Avatar size={"big"} name={name || "Anonymous"} />
+        <Avatar size={"big"} name={name ? name[0] : "A"} />
       </div>
     </div>
   );

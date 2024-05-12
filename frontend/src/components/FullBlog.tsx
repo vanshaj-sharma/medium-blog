@@ -2,10 +2,10 @@ import { Blog } from "../hooks";
 import { Appbar } from "./Appbar";
 import { Avatar } from "./BlogCard";
 
-export const FullBlog = ({ blog }: { blog: Blog }) => {
+export const FullBlog = ({ blog, name }: { blog: Blog; name: string }) => {
   return (
     <div>
-      <Appbar />
+      <Appbar name={name} />
       <div className="flex justify-center">
         <div className="grid grid-cols-12 px-10 pt-200 w-full max-w-screen-2xl pt-12">
           <div className=" col-span-8">

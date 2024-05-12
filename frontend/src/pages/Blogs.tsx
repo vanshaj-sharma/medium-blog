@@ -1,16 +1,17 @@
 import { Appbar } from "../components/Appbar";
 import { BlogCard } from "../components/BlogCard";
 import { BlogSkeleton } from "../components/BlogSkeleton";
-import { Blog, useBlogs } from "../hooks";
+import { Blog, useBlogs, useName } from "../hooks";
 
 export const Blogs = () => {
   const { loading, blogs } = useBlogs();
+  const { name } = useName();
 
   if (loading || !blogs) {
     //add skeletons
     return (
       <div>
-        <Appbar name={"Anonymous"} />
+        <Appbar name={localStorage.getItem("name") || name} />
         <div className="flex justify-center">
           <div>
             <BlogSkeleton />
@@ -25,7 +26,7 @@ export const Blogs = () => {
   }
   return (
     <div>
-      <Appbar />
+      <Appbar name={localStorage.getItem("name") || ""} />
       <div className="flex justify-center">
         <div className="">
           {blogs.map((blog: Blog) => (
