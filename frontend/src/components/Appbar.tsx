@@ -18,6 +18,15 @@ export const Appbar = ({
       </Link>
 
       <div>
+        <Link to={`/`}>
+          <button
+            type="button"
+            className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 "
+          >
+            Sign Out
+          </button>
+        </Link>
+
         {publish === true ? null : (
           <Link to={`/publish`}>
             <button
